@@ -91,7 +91,7 @@ void ColorOut(int column, int row, int color) {
 
 // Drive
 
-void SteerDriveEx(unsigned char portLeft, unsigned char portRight, float powerLeft, float powerRight, bool forward, float distance) {
+void SteerDriveEx(unsigned char portLeft, unsigned char portRight, char powerLeft, char powerRight, bool forward, float distance) {
     if (!forward) {
         powerLeft = -powerLeft;
         powerRight = -powerRight;
@@ -99,8 +99,8 @@ void SteerDriveEx(unsigned char portLeft, unsigned char portRight, float powerLe
     byte ports[2];
     ports[0] = portRight;
     ports[1] = portLeft;
-    float absPowerLeft = abs(powerLeft);
-    float absPowerRight = abs(powerRight);
+    char absPowerLeft = abs(powerLeft);
+    char absPowerRight = abs(powerRight);
     if (powerLeft == powerRight) {
         long angle = distance * 360.0 / (M_PI * WHEELDIAMETER);
         RotateMotorEx(ports, powerLeft, angle, 0, true, true);
@@ -111,9 +111,9 @@ void SteerDriveEx(unsigned char portLeft, unsigned char portRight, float powerLe
     if (powerLeft + powerRight == 0) {
         outerCircumference = distance;
     } else if (absPowerLeft < absPowerRight) {
-        outerCircumference = powerLeft / (powerRight + powerLeft) * 2.0 * distance;
+        outerCircumference = 2.0 * powerLeft / (powerRight + powerLeft) * distance;
     } else {
-        outerCircumference = powerRight / (powerRight + powerLeft) * 2.0 * distance;
+        outerCircumference = 2.0 * powerRight / (powerRight + powerLeft) * distance;
     }
     long angle = abs(outerCircumference * 360.0 / (M_PI * WHEELDIAMETER));
     if (absPowerLeft < absPowerRight) {
